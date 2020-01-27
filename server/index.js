@@ -3,8 +3,24 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const volleyball = require('volleyball')
 const path = require('path')
+var graphqlHTTP = require('express-graphql');
+var { buildSchema } = require('graphql');
+
+var schema = buildSchema(`
+  type Query {
+    hello: String
+  }
+`);
+
+var root = { hello: () => 'Hello world!' };
 
 const app = express()
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  rootValue: root,
+  graphiql: true,
+}));
+app.listen(4000, () => console.log('Now browse to localhost:4000/graphql'));
 
 app.use(morgan('dev'))
 

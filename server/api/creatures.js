@@ -15,7 +15,7 @@ router.get("/", async (req, res, next) => {
 
 router.get('/:creatureid', async (req, res, next) => {
     try {
-        res.json(await Project.findById(req.params.projectid, {include: [Robot]}))
+        res.json(await Creature.findById(req.params.projectid))
     }
     catch (err) {
         res.status(500).send("This task does not exist")
